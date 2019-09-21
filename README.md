@@ -1,8 +1,8 @@
 
-[![Lychee](https://repository-images.githubusercontent.com/120089402/f2574c00-dca6-11e9-8500-b00b16763b5f)](https://github.com/astenmies/lychee)
+[![Lychee](https://repository-images.githubusercontent.com/210030187/600c7380-dcb9-11e9-992b-bbe7a38e48e5)](https://github.com/astenmies/lychee)
 
 <h1 align="center">
-Lychee
+lychee
 </h1>
 
 <p align="center">
