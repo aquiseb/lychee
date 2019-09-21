@@ -1,29 +1,18 @@
-package main
+package core
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/nautilus/gateway"
 	"github.com/nautilus/graphql"
-	"github.com/vektah/gqlparser/ast"
 )
 
-func main() {
-	viewerField := &gateway.QueryField{
-		Name: "viewer",
-		Type: ast.NamedType("String", &ast.Position{}),
-		Resolver: func(ctx context.Context, args map[string]interface{}) (string, error) {
-			// for now just return the value in context
-			spew.Dump(ctx)
-			return "Hello", nil
-			// return ctx.Value("user-id").(string), nil
-		},
-	}
+var Version string
 
-	// introspect the apis
+func Federation() {
+	fmt.Printf(`Version: %s`, Version)
+
 	schemas, err := graphql.IntrospectRemoteSchemas(
 		"http://localhost:4001/graphql",
 		"http://localhost:4002/graphql",
@@ -33,7 +22,7 @@ func main() {
 	}
 
 	// create the gateway instance
-	gw, err := gateway.New(schemas, gateway.WithQueryFields(viewerField))
+	gw, err := gateway.New(schemas)
 	if err != nil {
 		panic(err)
 	}

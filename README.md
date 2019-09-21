@@ -15,45 +15,61 @@ Lychee
 This repository is a work in progress...
 ---
 
-## How to use
-### Setup
+## Setup
 
-```
+```shell
 go get -u github.com/astenmies/lychee
 go get ./...
 ```
 
-### Start
+## Start
 
 Open each microservice in a separate terminal tab. Start each of them with
 
-```
+```shell
 cd micro-xxxxx
 ./start.sh
 ```
 
 The federation of each of these microservices is done with the `federation` package.
 
-```
+```shell
 cd federation
 ./start.sh
 ```
 
+## Configuration
+
+The configuration is handled by [viper](github.com/spf13/viper).
+
+## Versioning
+
+Versioning is handled by [govvv](github.com/ahmetb/govvv).
+To change the version, edit the `VERSION` file.
+
+## Build
+
+Each microservice must be built separately.
+Add a `VERSION` file and specify the version of the microservice.
+
+```shell
+govvv build
+```
 
 ## Static assets
 
 **lychee** uses [go-bindata](https://github.com/jteeuwen/go-bindata) to convert any file into managable Go source code. 
 Useful for embedding binary data into a go program like GraphQL schemas.
 
-### Usage
-
 Write your microservice schema package, then generate `bindata.go`.
 
-$ `go-bindata -ignore=\.go -pkg=schema -o=schema/bindata.go schema/...`
-
-Here's how to use it from main.go.
-
+```shell
+go-bindata -ignore=\.go -pkg=schema -o=schema/bindata.go schema/...
 ```
+
+Here's how to use it from within main.go.
+
+```go
 // GetSchema returns the schema of Post
 func GetSchema() string {
 	s, _ := schema.Asset("schema/schema.graphql")
