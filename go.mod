@@ -7,6 +7,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/graph-gophers/graphql-go v0.0.0-20190917030536-38a077bc812d
 	github.com/magiconair/properties v1.8.1 // indirect
+	github.com/matryer/try v0.0.0-20161228173917-9ac251b645a2
 	github.com/nautilus/gateway v0.0.14
 	github.com/nautilus/graphql v0.0.7
 	github.com/pelletier/go-toml v1.4.0 // indirect

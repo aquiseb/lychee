@@ -6,12 +6,10 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net"
 	"os"
 	"os/exec"
 	"strings"
 	"sync"
-	"time"
 )
 
 type cmd struct {
@@ -19,7 +17,6 @@ type cmd struct {
 	Cmd    string
 	Args   []string
 	Dir    string
-	Port   string
 	Err    error
 }
 
@@ -31,14 +28,12 @@ func main() {
 			Cmd:    "go",
 			Args:   []string{"run", "main.go"},
 			Dir:    "./micro-hello",
-			Port:   "4001",
 		},
 		cmd{
 			Module: "Post Microservice",
 			Cmd:    "go",
 			Args:   []string{"run", "main.go"},
 			Dir:    "./micro-post",
-			Port:   "4002",
 		},
 	}
 
@@ -50,9 +45,6 @@ func main() {
 
 	go func() {
 		wg.Wait() //wait for the group to finish
-		fmt.Println("YES")
-		close(succ) //  then close the signal channel
-
 		cm := exec.Command("go", "run", "micro-federation/main.go")
 		var stdBuffer bytes.Buffer
 		mw := io.MultiWriter(os.Stdout, &stdBuffer)
@@ -66,10 +58,6 @@ func main() {
 	for _, c := range torun {
 		// go runCmd(c, out, &wg)
 		go runCmdAndWaitForSomeOutput(c, out, succ, &wg)
-	}
-
-	for c := range succ {
-		fmt.Println(c)
 	}
 
 	// loop over the chan to collect errors
@@ -107,20 +95,16 @@ func runCmd(o cmd, out chan cmd, wg *sync.WaitGroup) {
 func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.WaitGroup) {
 
 	cmd := exec.Command(o.Cmd, o.Args...)
-	// Change the directory in which the command is run
 	if o.Dir != "" {
 		cmd.Dir = o.Dir
 	}
 
-	// Get stdout
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		o.Err = err // save err
 		out <- o    // signal completion
 		return      // return to unfreeze the waitgroup wg
 	}
-
-	// Get stderr
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		o.Err = err
@@ -128,7 +112,6 @@ func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.
 		return
 	}
 
-	// Could the command start?
 	if err := cmd.Start(); err != nil {
 		o.Err = err
 		out <- o
@@ -137,24 +120,18 @@ func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.
 
 	go cmd.Wait() // dont wait for command completion
 
-	// build a concurrent fd's scanner
-
 	outScan := make(chan error) // to signal errors detected on the fd
-
 	var wg2 sync.WaitGroup
 	wg2.Add(2) // the number of fds being watched
 
 	go func() {
-		// checkIfRunning(o.Port)
-		// defer wg.Done()
+		defer wg.Done()
 		defer wg2.Done()
 		sc := bufio.NewScanner(stdout)
 		for sc.Scan() {
 			line := sc.Text()
 			fmt.Println(line)
 			if strings.Contains(line, "FEDERATION_SIGNAL_OK") { // the OK marker
-				wg.Done()
-				succ <- "ok here"
 				return // quit asap to unfreeze wg2
 			} else if strings.Contains(line, "not known") { // the nOK marker, if any...
 				outScan <- fmt.Errorf("%v", line)
@@ -164,15 +141,13 @@ func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.
 	}()
 
 	go func() {
-		// defer wg.Done()
+		defer wg.Done()
 		defer wg2.Done()
 		sc := bufio.NewScanner(stderr)
 		for sc.Scan() {
 			line := sc.Text()
 			fmt.Println(line)
 			if strings.Contains(line, "FEDERATION_SIGNAL_OK") { // the OK marker
-				succ <- "nok there"
-				wg.Done()
 				return // quit asap to unfreeze wg2
 			} else if strings.Contains(line, "not known") { // the nOK marker, if any...
 				outScan <- fmt.Errorf("%v", line) // signal error
@@ -181,13 +156,11 @@ func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.
 		}
 	}()
 
-	go func() {
-		wg2.Wait() // consider that if the program does not output anything,
-		// or never prints ok/nok, this will block forever
-		close(outScan) // close the chan so the next loop is finite
-	}()
-
-	fmt.Println("AFTER")
+	// go func() {
+	wg2.Wait() // consider that if the program does not output anything,
+	// or never prints ok/nok, this will block forever
+	close(outScan) // close the chan so the next loop is finite
+	// }()
 
 	// - simple timeout less loop
 	for err := range outScan {
@@ -219,16 +192,4 @@ func runCmdAndWaitForSomeOutput(o cmd, out chan cmd, succ chan string, wg *sync.
 	// }
 
 	// exit and unfreeze the wait group wg
-}
-
-func checkIfRunning(port string) {
-	// go func() {
-	time.Sleep(time.Second)
-	_, err := net.Dial("tcp", "localhost:"+port)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("IS OKAYAYY")
-	// }()
 }
