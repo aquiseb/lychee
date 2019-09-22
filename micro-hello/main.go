@@ -42,9 +42,9 @@ func main() {
 	http.Handle("/graphql", core.Graphql(s, r))
 	http.Handle("/", core.Playground())
 
-	fmt.Println("Starting server on http://localhost:4001")
-	err := http.ListenAndServe(":4001", nil)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	// https://stackoverflow.com/a/48250354/9077800
+	done := make(chan bool)
+	go http.ListenAndServe(":4001", nil)
+	fmt.Println("FEDERATION_SIGNAL_OK", "Started server on http://localhost:4001")
+	<-done
 }

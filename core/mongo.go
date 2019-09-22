@@ -25,7 +25,7 @@ func GetClient() (*mongo.Client, error) {
 	if err != nil {
 		log.Fatal("Couldn't connect to the database", err)
 	} else {
-		log.Println("Connected!")
+		log.Println("Mongo connected")
 	}
 
 	return client, nil

@@ -41,6 +41,7 @@ cd federation
 ## Configuration
 
 The configuration is handled by [viper](github.com/spf13/viper).
+Add a `_config` file in your microservice.
 
 ## Versioning
 

@@ -1,4 +1,4 @@
-package core
+package main
 
 import (
 	"fmt"
@@ -8,10 +8,7 @@ import (
 	"github.com/nautilus/graphql"
 )
 
-var Version string
-
-func Federation() {
-	fmt.Printf(`Version: %s`, Version)
+func main() {
 
 	schemas, err := graphql.IntrospectRemoteSchemas(
 		"http://localhost:4001/graphql",
