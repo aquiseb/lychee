@@ -23,7 +23,7 @@ func (s *Services) Check(str string) {
 // GetPostById retrieves a post from db based on id
 func (s *Services) GetPostById(filter bson.M) (*models.Post, error) {
 	var result models.Post
-	collection := s.Client.Database("lychee").Collection("post")
+	collection := s.Client.Database("lychee").Collection("posts")
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
 	spew.Dump(result)
 
