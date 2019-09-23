@@ -1,8 +1,12 @@
 package resolvers
 
 import (
+	"context"
+
 	"github.com/astenmies/lychee/micro-post/models"
 	"github.com/graph-gophers/graphql-go"
+	"github.com/spf13/viper"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Node interface {
@@ -29,14 +33,16 @@ func (n *NodeResolver) ToUser() (*UserResolver, bool) {
 	return user, ok
 }
 
-func (r *Query) Node(args struct{ ID string }) *NodeResolver {
-	user := users[args.ID]
+func (r *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
+	dbName := viper.GetString("db.name")
 
-	if user != nil {
-		return &NodeResolver{
-			&UserResolver{*user},
-		}
-	} else {
-		return nil
+	user := users[args.ID]
+	var result models.Post
+	collection := r.DB.Client.Database(dbName).Collection("user")
+	err := collection.FindOne(context.TODO(), bson.M{"id": args.ID}).Decode(&result)
+	if err != nil {
+		return nil, err
 	}
+
+	return &NodeResolver{&UserResolver{*user}}, nil
 }

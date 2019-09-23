@@ -14,7 +14,6 @@ type PostResolver struct {
 }
 
 func (r *Query) GetPost(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
-	r.DB.Check("hola")
 	id := *args.ID // dereference the pointer
 	fmt.Println(id)
 	post, err := r.DB.GetPostById(bson.M{"id": id})
