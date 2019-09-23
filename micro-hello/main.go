@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+
+	"github.com/spf13/viper"
 
 	"github.com/astenmies/lychee/core"
 	resolvers "github.com/astenmies/lychee/micro-hello/resolvers"
@@ -34,17 +37,18 @@ func GetSchema() string {
 	return stringSchema
 }
 
-// Can be run as a microservice or consumed by a central server
 func main() {
+	port := viper.GetString("port")
 	s := GetSchema()
 	r := &resolvers.Query{}
 
 	http.Handle("/graphql", core.Graphql(s, r))
 	http.Handle("/", core.Playground())
 
-	// https://stackoverflow.com/a/48250354/9077800
-	done := make(chan bool)
-	go http.ListenAndServe(":4001", nil)
-	fmt.Println("FEDERATION_SIGNAL_OK", "Started server on http://localhost:4001")
-	<-done
+	fmt.Println("Starting server on http://localhost:" + port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func init() {
+	core.InitViper()
 }
