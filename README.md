@@ -60,7 +60,7 @@ govvv build
 ## Static assets
 
 **lychee** uses [go-bindata](https://github.com/jteeuwen/go-bindata) to convert any file into managable Go source code. 
-Useful for embedding binary data into a go program like GraphQL schemas.
+Useful for embedding binary data (like GraphQL schemas) into a go program.
 
 Write your microservice schema package, then generate `bindata.go`.
 
