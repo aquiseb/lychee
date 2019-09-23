@@ -31,11 +31,11 @@ cd micro-xxxxx
 ./start.sh
 ```
 
-The federation of each of these microservices is done with the `federation` package.
+The federation of each of these microservices is done with the `micro-federation` module.
 
 ```shell
-cd federation
-./start.sh
+cd micro-federation
+go run main.go
 ```
 
 ## Configuration
