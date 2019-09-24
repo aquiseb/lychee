@@ -75,9 +75,9 @@ func Seed(c *mongo.Client) {
 
 	dataToSeed := map[string][]interface{}{
 		"users": {
-			bson.M{"id": "1", "firstname": "Bob", "lastname": "Dylan"},
-			bson.M{"id": "2", "firstname": "Johnny", "lastname": "Cash"},
-			bson.M{"id": "3", "firstname": "Elvis", "lastname": "Presley"},
+			bson.M{"id": "1", "firstname": "Aline", "lastname": "MQ"},
+			bson.M{"id": "2", "firstname": "Rose", "lastname": "DS"},
+			bson.M{"id": "3", "firstname": "Seb", "lastname": "DS"},
 		},
 		"posts": {
 			bson.M{"id": "1", "title": "First post", "slug": "first-post"},
