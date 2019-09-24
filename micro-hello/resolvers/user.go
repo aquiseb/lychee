@@ -6,7 +6,7 @@ import (
 
 var users = map[string]*User{
 	"1": {
-		id:        "2",
+		id:        "1",
 		firstName: "Aline",
 	},
 }

@@ -7,10 +7,35 @@ interface Node {
 }
 
 "what is needed for a post"
-type Post {
+type Post implements Node {
   id: ID!
   title: String
+  reviews: ReviewConnection
 }
+
+type Review implements Node {
+  id: ID!
+  stars: Int
+  # post: Post
+}
+
+type ReviewConnection {
+  edges: [ReviewEdge]
+  pageInfo: PageInfo!
+}
+
+type ReviewEdge {
+  cursor: ID!
+  node: Review
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: ID
+  endCursor: ID
+}
+
 
 type User implements Node {
   id: ID!
@@ -18,6 +43,6 @@ type User implements Node {
 }
 
 type Query {
-  getPost(id: ID): Post
+  post(id: ID): Post
   node(id: ID!): Node
 }

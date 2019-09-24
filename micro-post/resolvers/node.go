@@ -33,6 +33,16 @@ func (n *NodeResolver) ToUser() (*UserResolver, bool) {
 	return user, ok
 }
 
+func (n *NodeResolver) ToPost() (*PostResolver, bool) {
+	post, ok := n.node.(*PostResolver)
+	return post, ok
+}
+
+func (n *NodeResolver) ToReview() (*ReviewResolver, bool) {
+	review, ok := n.node.(*ReviewResolver)
+	return review, ok
+}
+
 func (r *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
 	dbName := viper.GetString("db.name")
 

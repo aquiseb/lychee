@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"encoding/base64"
 	"fmt"
 	"reflect"
 	"sort"
@@ -48,4 +49,9 @@ func CompareUnorderedSlices(a, b []string) bool {
 	sort.Strings(b_copy)
 
 	return reflect.DeepEqual(a_copy, b_copy)
+}
+
+// EncodeCursor cursor encodes the cursot position in base64
+func EncodeCursor(i int) graphql.ID {
+	return graphql.ID(base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("cursor%d", i))))
 }

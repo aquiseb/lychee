@@ -3,6 +3,7 @@ module github.com/astenmies/lychee
 go 1.12
 
 require (
+	github.com/carted/graphql v0.7.6
 	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/graph-gophers/graphql-go v0.0.0-20190917030536-38a077bc812d

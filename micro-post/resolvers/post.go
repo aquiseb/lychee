@@ -13,7 +13,7 @@ type PostResolver struct {
 	m models.Post
 }
 
-func (r *Query) GetPost(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
+func (r *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
 	id := *args.ID // dereference the pointer
 	fmt.Println("id --", id)
 	post, err := r.DB.GetPostById(bson.M{"id": id})
