@@ -2,7 +2,6 @@ global.json
 .vscode
 vendor
 __generated__/
-schema/schema.graphql
 node_modules
 .next
 .editorconfig
