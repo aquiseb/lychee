@@ -1,0 +1,1 @@
+export default () => <a href="/">I am the callback</a>

@@ -1,0 +1,80 @@
+# source: http://localhost:3000/graphql
+# timestamp: Sun Sep 15 2019 22:38:02 GMT+0200 (Central European Summer Time)
+
+schema {
+  query: Root
+  mutation: Mutation
+}
+
+input LoginInput {
+  id: String!
+  clientMutationId: String
+}
+
+type LoginPayload {
+  user: User
+  clientMutationId: String
+}
+
+type Mutation {
+  login(input: LoginInput!): LoginPayload
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""A post"""
+type Post {
+  """The ID of an object"""
+  id: ID!
+  content: String
+  title: String
+}
+
+"""A connection to a list of items."""
+type PostConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PostEdge]
+}
+
+"""An edge in a connection."""
+type PostEdge {
+  """The item at the end of the edge"""
+  node: Post
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type Root {
+  viewer: Viewer
+  allPosts(after: String, first: Int, before: String, last: Int): PostConnection
+}
+
+type User {
+  """The ID of an object"""
+  id: ID!
+  firstname: String
+  lastname: String
+  posts(after: String, first: Int, before: String, last: Int): PostConnection
+}
+
+type Viewer {
+  isLoggedIn: Boolean
+  user: User
+}
