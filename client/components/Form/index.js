@@ -49,7 +49,9 @@ class RegistrationForm extends React.Component {
 
 	handleChange = pathArray => {
 		const props = { pathArray };
-		if (!props.pathArray || !(props.pathArray || []).length) return null;
+		if (!props.pathArray || !(props.pathArray || []).length) {
+			return this.setState({ allComps: [] }, () => this.props.handleChange({}));
+		}
 
 		let allPaths = [];
 		let allComps = {};
@@ -62,7 +64,7 @@ class RegistrationForm extends React.Component {
 		}
 
 		this.setState({ allComps }, () => {
-			this.props.handleChange(this.props.form.getFieldsValue())
+			this.props.handleChange(this.props.form.getFieldsValue());
 		});
 	};
 
