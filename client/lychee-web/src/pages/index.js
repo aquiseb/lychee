@@ -1,1 +1,1 @@
-export { Home as default } from "@mypackages/core"
+export { Home as default } from "@lychee/core"

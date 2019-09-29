@@ -1,5 +1,5 @@
 {
-  "name": "app-mobile",
+  "name": "lychee-mobile-expo",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@mypackages/core": "1.0.0",
+    "@lychee/core": "1.0.0",
     "@babel/runtime-corejs2": "^7.6.2",
     "expo": "^35.0.0",
     "react": "16.8.3",

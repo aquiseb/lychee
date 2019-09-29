@@ -3,7 +3,7 @@ const withCss = require("@zeit/next-css");
 const withTM = require('next-transpile-modules');
 
 module.exports = withCss(withTM({
-  transpileModules: ['@mypackages/core'],
+  transpileModules: ['@lychee/core'],
 
   webpack: (config, { isServer }) => {
     if (isServer) {

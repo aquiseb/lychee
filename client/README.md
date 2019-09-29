@@ -60,7 +60,11 @@ Visit `localhost:3000/graphql` and use the following queries
 [Video: React Native Web Full App Tutorial - Build a Workout App for iOS, Android, and Web](https://www.youtube.com/watch?v=_CBYbEGvxYY)
 [react-navigation vs react-native-navigation](https://blog.logrocket.com/react-navigation-vs-react-native-navigation-which-is-right-for-you-3d47c1cd1d63/)
 [Being free from expo in react-native apps](https://medium.com/reactbrasil/being-free-from-expo-in-react-native-apps-310034a3729)
-[Install java on Ubuntu](https://thishosting.rocks/install-java-ubuntu/)
+[Install java on Ubuntu](https://tecadmin.net/install-oracle-java-11-ubuntu-18-04-bionic/)
+[Install android studio in Ubuntu](https://medium.com/better-programming/install-android-studio-in-ubuntu-b8aed675849f)
+[Install android sdk](https://www.mathworks.com/help/supportpkg/android/ug/install-android-sdk-platform-packages-and-sdk-tools.html)
+[Run create-react-native app on android studios emulator](https://medium.com/@wnyao0830/run-create-react-native-app-on-android-studios-emulator-ad678a0c362f)
+[Next links with React Native Web](https://gist.github.com/necolas/f9034091723f1b279be86c7429eb0c96)
 
 ## Sources
 https://medium.com/front-end-weekly/learn-using-jwt-with-passport-authentication-9761539c4314
@@ -96,3 +100,10 @@ See https://err.sh/zeit/next.js/page-without-valid-component for more info.
     at process._tickCallback (internal/process/next_tick.js:68:7)
 
 error Command failed with exit code 1.
+
+
+# Troubleshooting
+
+###### Could not GET 'https://jitpack.io/org/webkit/android-jsc/maven-metadata.xml'
+In *build.gradle* replace `https://jitpack.io/` by `https://www.jitpack.io`.
+More info : https://www.jitpack.io/

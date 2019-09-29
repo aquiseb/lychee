@@ -6,6 +6,8 @@
  * @flow
  */
 
+import { Home } from "@lychee/core"
+
 import React from 'react';
 import {
   SafeAreaView,
@@ -27,6 +29,7 @@ import {
 const App = () => {
   return (
     <>
+      <Home />
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <ScrollView

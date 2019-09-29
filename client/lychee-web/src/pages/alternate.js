@@ -1,1 +1,1 @@
-export { Alternate as default } from "@mypackages/core"
+export { Alternate as default } from "@lychee/core"
