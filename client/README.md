@@ -58,6 +58,7 @@ Visit `localhost:3000/graphql` and use the following queries
 [Build Mobile-Friendly Web Apps with React Native Web](https://scotch.io/tutorials/build-mobile-friendly-web-apps-with-react-native-web)
 [From Zero to Publish: Expo Web (React Native for Web) Tutorial](https://medium.com/@toastui/from-zero-to-publish-expo-web-react-native-for-web-tutorial-e3e020d6d3ff)
 [Video: React Native Web Full App Tutorial - Build a Workout App for iOS, Android, and Web](https://www.youtube.com/watch?v=_CBYbEGvxYY)
+[react-navigation vs react-native-navigation](https://blog.logrocket.com/react-navigation-vs-react-native-navigation-which-is-right-for-you-3d47c1cd1d63/)
 
 ## Sources
 https://medium.com/front-end-weekly/learn-using-jwt-with-passport-authentication-9761539c4314
