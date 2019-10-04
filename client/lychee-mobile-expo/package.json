@@ -1,6 +1,7 @@
 {
   "name": "lychee-mobile-expo",
   "version": "1.0.0",
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "postinstall": "rnw link ../packages",
@@ -12,19 +13,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject"
-  },
-  "workspaces": {
-    "nohoist": [
-      "expo",
-      "expo/**",
-      "react",
-      "react/**",
-      "react-native",
-      "react-native/**",
-      "react-native-yarn-workspaces",
-      "react-native-yarn-workspaces/**",
-      "@babel/runtime-corejs2"
-    ]
   },
   "dependencies": {
     "@lychee/core": "1.0.0",
@@ -39,5 +27,17 @@
     "react-native-yarn-workspaces": "1.1.0",
     "babel-preset-expo": "^7.0.0"
   },
-  "private": true
+  "workspaces": {
+    "nohoist": [
+      "expo",
+      "expo/**",
+      "react",
+      "react/**",
+      "react-native",
+      "react-native/**",
+      "react-native-yarn-workspaces",
+      "react-native-yarn-workspaces/**",
+      "@babel/runtime-corejs2"
+    ]
+  }
 }

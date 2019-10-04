@@ -14,7 +14,7 @@
 		"relay": "lerna run relay",
 		"watch": "lerna run watch",
 		"build": "lerna run build",
-		"clean": "lerna run clean && rm -rf app-*/node_modules && rm -rf ./node_modules ./dist && rm -rf yarn.lock",
+		"clean": "lerna run clean && rm -rf ./node_modules ./dist && rm -rf yarn.lock",
 		"flush": "lerna run flush && rm -rf ./dist",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

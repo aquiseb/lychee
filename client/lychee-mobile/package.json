@@ -1,8 +1,10 @@
 {
   "name": "lychee-mobile",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
+    "clean": "rm -rf ./node_modules ./.gradle",
+    "flush": "rm -rf ./.gradle",
     "postinstall": "rnw link ../packages",
     "watch": "rnw watch",
     "android": "react-native run-android",

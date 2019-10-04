@@ -1,25 +1,27 @@
-import React from 'react'
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function App(props) {
+const App = props => {
   return (
     <View style={styles.container}>
-      <Text accessibilityRole="header" style={styles.text}>
-        React Native for Web & Next.js
+      <Text accessibilityRole="header" style={styles.h1}>
+        UNIVERSE
       </Text>
-
-      <Text style={styles.link} accessibilityRole="link" href={`/alternate`}>
-        A universal link
-      </Text>
-
       <View style={styles.textContainer}>
-        <Text accessibilityRole="header" aria-level="2" style={styles.text}>
-          Subheader
+        <Text accessibilityRole="header" aria-level="2" style={styles.h2}>
+          MOBILE & WEB
+        </Text>
+      </View>
+      <View style={styles.textContainer}>
+        <Text style={styles.p}>
+          BY ASTEN MIES
         </Text>
       </View>
     </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
@@ -34,10 +36,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 16
   },
-  text: {
+  p: {
     alignItems: "center",
-    color: "red",
-    fontSize: 24,
-    marginBottom: 24
+    color: "#cccccc",
+    fontSize: 12
+  },
+  h2: {
+    alignItems: "center",
+    color: "#808080",
+    fontSize: 18
+  },
+  h1: {
+    alignItems: "center",
+    color: "#212121",
+    fontSize: 42,
+    marginBottom: 10
   }
 });
