@@ -38,6 +38,17 @@ cd micro-federation
 go run main.go
 ```
 
+## Failed downloading ...
+
+https://github.com/oxequa/realize/issues/253#issuecomment-532045314
+
+or
+
+```
+go get -v gopkg.in/urfave/cli.v2 \
+&& go get -v github.com/oxequa/realize 
+```
+
 ## Configuration
 
 The configuration is handled by [viper](github.com/spf13/viper).
