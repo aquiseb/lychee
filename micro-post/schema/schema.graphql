@@ -36,7 +36,6 @@ type PageInfo {
   endCursor: ID
 }
 
-
 type User implements Node {
   id: ID!
   lastName: String!

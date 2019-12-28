@@ -1,4 +1,3 @@
-
 [![Lychee](https://repository-images.githubusercontent.com/210030187/600c7380-dcb9-11e9-992b-bbe7a38e48e5)](https://github.com/astenmies/lychee)
 
 <h1 align="center">
@@ -12,8 +11,8 @@ lychee
 </p>
 
 ---
-This repository is a work in progress...
----
+
+## This repository is a work in progress...
 
 ## Setup
 
@@ -46,7 +45,7 @@ or
 
 ```
 go get -v gopkg.in/urfave/cli.v2 \
-&& go get -v github.com/oxequa/realize 
+&& go get -v github.com/oxequa/realize
 ```
 
 ## Configuration
@@ -70,7 +69,7 @@ govvv build
 
 ## Static assets
 
-**lychee** uses [go-bindata](https://github.com/jteeuwen/go-bindata) to convert any file into managable Go source code. 
+**lychee** uses [go-bindata](https://github.com/jteeuwen/go-bindata) to convert any file into managable Go source code.
 Useful for embedding binary data (like GraphQL schemas) into a go program.
 
 Write your microservice schema package, then generate `bindata.go`.
@@ -88,5 +87,31 @@ func GetSchema() string {
 	stringSchema := string(s)
 
 	return stringSchema
+}
+```
+
+## Graphql Queries
+
+```graphql
+{
+    post(id: "2") {
+        title
+        reviews {
+        edges {
+            node {
+                id
+                stars
+            }
+        }
+    }
+}
+```
+
+```graphql
+{
+  allUsers {
+    id
+    firstName
+  }
 }
 ```
