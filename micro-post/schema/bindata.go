@@ -83,7 +83,7 @@ func schemaSchemaGraphql() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "schema/schema.graphql", size: 587, mode: os.FileMode(420), modTime: time.Unix(1577137632, 0)}
+	info := bindataFileInfo{name: "schema/schema.graphql", size: 587, mode: os.FileMode(420), modTime: time.Unix(1577137647, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
