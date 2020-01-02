@@ -107,11 +107,14 @@ func GetSchema() string {
 }
 ```
 
+`lastName` is provided by micro-post for the moment! This is an awesome federation feature.
+
 ```graphql
 {
   allUsers {
     id
     firstName
+    lastName
   }
 }
 ```
