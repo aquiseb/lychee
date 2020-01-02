@@ -15,7 +15,7 @@ import (
 func main() {
 	port := viper.GetString("port")
 
-	c, _ := core.GetClient()
+	c, _ := core.GetMongoClient()
 	core.Seed(c) // seed demo data
 
 	schem := schema.GetSchema()

@@ -15,8 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-// GetClient returns a MongoDB Client
-func GetClient() (*mongo.Client, error) {
+// GetMongoClient returns a MongoDB Client
+func GetMongoClient() (*mongo.Client, error) {
 	uri := viper.GetString("db.uri")
 
 	clientOptions := options.Client().ApplyURI(uri)
