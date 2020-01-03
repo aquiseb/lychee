@@ -14,6 +14,7 @@ import (
 func Graphql(schema string, resolvers interface{}) http.HandlerFunc {
 	parsedSchema := graphql.MustParseSchema(schema, resolvers)
 
+	// SHOULD PASS DB TO RESOLVERS
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		relayHandler := relay.Handler{Schema: parsedSchema}
 		relayHandler.ServeHTTP(w, r)

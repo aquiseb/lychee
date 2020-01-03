@@ -84,6 +84,11 @@ func Seed(c *mongo.Client) {
 			bson.M{"id": "2", "title": "Second post", "slug": "second-post"},
 			bson.M{"id": "3", "title": "Third post", "slug": "third-post"},
 		},
+		"reviews": {
+			bson.M{"id": "1", "stars": 5, "postId": "1"},
+			bson.M{"id": "2", "stars": 4, "postId": "2"},
+			bson.M{"id": "3", "stars": 3, "postId": "1"},
+		},
 	}
 
 	for key, data := range dataToSeed {

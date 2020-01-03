@@ -5,51 +5,49 @@ import (
 	"fmt"
 
 	"github.com/astenmies/lychee/helpers"
+	"github.com/astenmies/lychee/micro-post/db"
 	"github.com/astenmies/lychee/micro-post/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type ReviewResolver struct {
 	m models.Review
 }
 
-var reviews = map[string]*models.Review{
-	"1": {
-		ID:     "11",
-		Stars:  5,
-		PostID: "2",
-	},
-	"2": {
-		ID:     "22",
-		Stars:  4,
-		PostID: "1",
-	},
-}
+// var reviews = map[string]*models.Review{
+// 	"1": {
+// 		ID:     "11",
+// 		Stars:  5,
+// 		PostID: "2",
+// 	},
+// 	"2": {
+// 		ID:     "22",
+// 		Stars:  4,
+// 		PostID: "1",
+// 	},
+// }
 
 // PostReviewsResolver represents all the Reviews that are connected to a certain Post
 type PostReviewsResolver struct {
 	ids  []graphql.ID
 	from int
 	to   int
+	DB   *db.Services
 }
 
-// Review is the resolver for a single review
 func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
 	id := *args.ID // dereference the pointer
 	fmt.Println("id --", id)
-
-	var review *models.Review
-
-	for _, rev := range reviews {
-		spew.Dump("rev.ID --", rev.ID)
-		if string(rev.ID) == id {
-			review = reviews[id]
-		}
+	review, err := r.DB.GetReviewById(bson.M{"id": id})
+	if err != nil {
+		return nil, err
 	}
 
 	s := ReviewResolver{
 		m: *review,
+		// Pass DB so we're able to use it in uderlying structs
+		// DB: r.DB,
 	}
 
 	return &s, nil
@@ -59,16 +57,18 @@ func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
 	ids := []graphql.ID{}
 
-	for _, review := range reviews {
+	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": "1"})
+
+	for _, review := range *reviews {
 		if review.PostID == p.m.ID {
 			ids = append(ids, review.ID)
 		}
 	}
 
-	fmt.Println("postsReviews --", ids)
-
 	s := PostReviewsResolver{
 		ids: ids,
+		// Pass DB so we're able to use it in uderlying structs
+		DB: p.DB,
 	}
 
 	return &s, nil
@@ -93,7 +93,9 @@ func idInSlice(str graphql.ID, list []graphql.ID) bool {
 func (u *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
 	selectedReviews := []*models.Review{}
 
-	for _, review := range reviews {
+	reviews, _ := u.DB.GetReviewsByPostId(bson.M{"postId": "1"})
+
+	for _, review := range *reviews {
 		if idInSlice(graphql.ID(review.ID), u.ids) {
 			selectedReviews = append(selectedReviews, review)
 		}
@@ -129,7 +131,8 @@ func (r *ReviewResolver) ID() graphql.ID {
 
 // Stars resolves the Stars of a review
 func (r *ReviewResolver) Stars() *int32 {
-	stars := int32(5)
+	// [TODO] Edges should access r.m the same way
+	stars := int32(r.m.Stars)
 	return &stars
 }
 
