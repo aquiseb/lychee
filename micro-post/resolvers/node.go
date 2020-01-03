@@ -43,12 +43,12 @@ func (n *NodeResolver) ToReview() (*ReviewResolver, bool) {
 	return review, ok
 }
 
-func (r *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
+func (q *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
 	dbName := viper.GetString("db.name")
 
 	// user := users[args.ID]
 	var result models.User
-	collection := r.DB.Client.Database(dbName).Collection("users")
+	collection := q.DB.Client.Database(dbName).Collection("users")
 	err := collection.FindOne(context.TODO(), bson.M{"id": args.ID}).Decode(&result)
 	if err != nil {
 		return nil, err

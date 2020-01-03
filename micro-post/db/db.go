@@ -7,7 +7,6 @@ import (
 
 	"github.com/astenmies/lychee/micro-post/models"
 	"github.com/astenmies/lychee/types"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -103,8 +102,6 @@ func (s *Services) GetReviewsByPostId(filter bson.M) (*[]*models.Review, error) 
 	// 	book := *element
 	// 	fmt.Println(book)
 	// }
-
-	spew.Dump("RRRRRRRRRR ---", results)
 
 	return &results, nil
 }

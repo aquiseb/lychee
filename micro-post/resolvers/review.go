@@ -7,7 +7,6 @@ import (
 	"github.com/astenmies/lychee/helpers"
 	"github.com/astenmies/lychee/micro-post/db"
 	"github.com/astenmies/lychee/micro-post/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -39,24 +38,24 @@ type PostReviewsResolver struct {
 	to   int
 }
 
-func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
+func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
 	id := *args.ID // dereference the pointer
 	fmt.Println("id --", id)
-	review, err := r.DB.GetReviewById(bson.M{"id": id})
+	review, err := q.DB.GetReviewById(bson.M{"id": id})
 	if err != nil {
 		return nil, err
 	}
 
 	s := ReviewResolver{
 		// Pass DB so we're able to use it in uderlying structs
-		DB: r.DB,
+		DB: q.DB,
 		m:  *review,
 	}
 
 	return &s, nil
 }
 
-// Reviews is the resolver for Reviews belonging to a Post (only getting the ids here)
+// Reviews is the resolver for Reviews belonging to a Post
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
 	ids := []graphql.ID{}
 
@@ -93,11 +92,9 @@ type ReviewEdge struct {
 // }
 
 // Edges gives a list of all the review edges that belong to a post
-func (u *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
-	spew.Dump("HOLA --", u.reviews)
-
+func (p *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
 	selectedReviews := []*models.Review{}
-	reviews := u.reviews
+	reviews := p.reviews
 
 	for _, review := range *reviews {
 		// if idInSlice(graphql.ID(review.ID), u.ids) {
@@ -106,12 +103,12 @@ func (u *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error)
 	}
 
 	// [TODO] improve this. We don't use ids anymore, but `reviews` is directly passed to `Edges`
-	l := make([]*ReviewEdge, len(*u.reviews))
+	l := make([]*ReviewEdge, len(*p.reviews))
 	for i := range l {
 		l[i] = &ReviewEdge{
 			cursor: helpers.EncodeCursor(i),
 			node: ReviewResolver{
-				DB: u.DB,
+				DB: p.DB,
 				m:  *selectedReviews[i],
 			},
 		}
@@ -121,13 +118,13 @@ func (u *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error)
 }
 
 // Cursor resolves the Cursor of a Review
-func (u *ReviewEdge) Cursor(ctx context.Context) graphql.ID {
-	return u.cursor
+func (r *ReviewEdge) Cursor(ctx context.Context) graphql.ID {
+	return r.cursor
 }
 
 // Node resolves the Node of a Review
-func (u *ReviewEdge) Node(ctx context.Context) *ReviewResolver {
-	return &u.node
+func (r *ReviewEdge) Node(ctx context.Context) *ReviewResolver {
+	return &r.node
 }
 
 // ID resolves the ID of a Review
@@ -151,32 +148,32 @@ type PageInfo struct {
 }
 
 // StartCursor ...
-func (u *PageInfo) StartCursor(ctx context.Context) *graphql.ID {
-	return &u.startCursor
+func (p *PageInfo) StartCursor(ctx context.Context) *graphql.ID {
+	return &p.startCursor
 }
 
 // EndCursor ...
-func (u *PageInfo) EndCursor(ctx context.Context) *graphql.ID {
-	return &u.endCursor
+func (p *PageInfo) EndCursor(ctx context.Context) *graphql.ID {
+	return &p.endCursor
 }
 
 // HasNextPage ...
-func (u *PageInfo) HasNextPage(ctx context.Context) bool {
-	return u.hasNextPage
+func (p *PageInfo) HasNextPage(ctx context.Context) bool {
+	return p.hasNextPage
 }
 
 // HasPreviousPage ...
-func (u *PageInfo) HasPreviousPage(ctx context.Context) bool {
-	return u.hasPreviousPage
+func (p *PageInfo) HasPreviousPage(ctx context.Context) bool {
+	return p.hasPreviousPage
 }
 
 // PageInfo resolves page info of a Review connection
-func (u *PostReviewsResolver) PageInfo(ctx context.Context) (*PageInfo, error) {
-	p := PageInfo{
-		startCursor:     helpers.EncodeCursor(u.from),
-		endCursor:       helpers.EncodeCursor(u.to - 1),
-		hasNextPage:     u.to < len(*u.reviews),
-		hasPreviousPage: u.from > 0,
+func (p *PostReviewsResolver) PageInfo(ctx context.Context) (*PageInfo, error) {
+	pi := PageInfo{
+		startCursor:     helpers.EncodeCursor(p.from),
+		endCursor:       helpers.EncodeCursor(p.to - 1),
+		hasNextPage:     p.to < len(*p.reviews),
+		hasPreviousPage: p.from > 0,
 	}
-	return &p, nil
+	return &pi, nil
 }
