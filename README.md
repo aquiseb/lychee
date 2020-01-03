@@ -92,6 +92,10 @@ func GetSchema() string {
 
 ## Graphql Queries
 
+### Post
+
+#### Simple
+
 ```graphql
 {
     post(id: "2") {
@@ -107,6 +111,37 @@ func GetSchema() string {
 }
 ```
 
+#### Advanced
+
+```graphql
+{
+  post(id: "1") {
+    id
+    title
+    reviews {
+      edges {
+        node {
+          id
+          stars
+          post {
+            id
+            title
+            reviews {
+              edges {
+                node {
+                  id
+                  stars
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 `lastName` is provided by micro-post for the moment! This is an awesome federation feature.
 
 ```graphql
@@ -118,3 +153,20 @@ func GetSchema() string {
   }
 }
 ```
+
+# Troubleshooting
+
+##### graphql: panic occurred: runtime error: invalid memory address or nil pointer dereference
+
+Chances are that you forgot to pass DB to a resolver. Passing DB enables underlying connections (like ReviewConnection) or infinite subqueries to use DB.
+
+```go
+s := PostReviewsResolver{
+    DB:      p.DB,
+    reviews: reviews,
+}
+```
+
+# Inspirations
+
+* https://github.com/deltaskelta/graphql-go-pets-example

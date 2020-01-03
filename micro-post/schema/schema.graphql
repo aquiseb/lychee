@@ -16,7 +16,7 @@ type Post implements Node {
 type Review implements Node {
   id: ID!
   stars: Int
-  # post: Post
+  post: Post
 }
 
 type ReviewConnection {

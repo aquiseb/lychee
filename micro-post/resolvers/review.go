@@ -7,12 +7,14 @@ import (
 	"github.com/astenmies/lychee/helpers"
 	"github.com/astenmies/lychee/micro-post/db"
 	"github.com/astenmies/lychee/micro-post/models"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 type ReviewResolver struct {
-	m models.Review
+	DB *db.Services
+	m  models.Review
 }
 
 // var reviews = map[string]*models.Review{
@@ -30,10 +32,11 @@ type ReviewResolver struct {
 
 // PostReviewsResolver represents all the Reviews that are connected to a certain Post
 type PostReviewsResolver struct {
-	ids  []graphql.ID
+	DB      *db.Services
+	reviews *[]*models.Review
+	// ids     []graphql.ID
 	from int
 	to   int
-	DB   *db.Services
 }
 
 func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
@@ -45,9 +48,9 @@ func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 	}
 
 	s := ReviewResolver{
-		m: *review,
 		// Pass DB so we're able to use it in uderlying structs
-		// DB: r.DB,
+		DB: r.DB,
+		m:  *review,
 	}
 
 	return &s, nil
@@ -57,7 +60,7 @@ func (r *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
 	ids := []graphql.ID{}
 
-	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": "1"})
+	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
 
 	for _, review := range *reviews {
 		if review.PostID == p.m.ID {
@@ -66,9 +69,9 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 	}
 
 	s := PostReviewsResolver{
-		ids: ids,
-		// Pass DB so we're able to use it in uderlying structs
-		DB: p.DB,
+		// ids:     ids,
+		DB:      p.DB,
+		reviews: reviews,
 	}
 
 	return &s, nil
@@ -80,33 +83,36 @@ type ReviewEdge struct {
 	node   ReviewResolver
 }
 
-func idInSlice(str graphql.ID, list []graphql.ID) bool {
-	for _, v := range list {
-		if v == str {
-			return true
-		}
-	}
-	return false
-}
+// func idInSlice(str graphql.ID, list []graphql.ID) bool {
+// 	for _, v := range list {
+// 		if v == str {
+// 			return true
+// 		}
+// 	}
+// 	return false
+// }
 
 // Edges gives a list of all the review edges that belong to a post
 func (u *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
-	selectedReviews := []*models.Review{}
+	spew.Dump("HOLA --", u.reviews)
 
-	reviews, _ := u.DB.GetReviewsByPostId(bson.M{"postId": "1"})
+	selectedReviews := []*models.Review{}
+	reviews := u.reviews
 
 	for _, review := range *reviews {
-		if idInSlice(graphql.ID(review.ID), u.ids) {
-			selectedReviews = append(selectedReviews, review)
-		}
+		// if idInSlice(graphql.ID(review.ID), u.ids) {
+		selectedReviews = append(selectedReviews, review)
+		// }
 	}
 
-	l := make([]*ReviewEdge, len(u.ids))
+	// [TODO] improve this. We don't use ids anymore, but `reviews` is directly passed to `Edges`
+	l := make([]*ReviewEdge, len(*u.reviews))
 	for i := range l {
 		l[i] = &ReviewEdge{
 			cursor: helpers.EncodeCursor(i),
 			node: ReviewResolver{
-				m: *selectedReviews[i],
+				DB: u.DB,
+				m:  *selectedReviews[i],
 			},
 		}
 	}
@@ -169,7 +175,7 @@ func (u *PostReviewsResolver) PageInfo(ctx context.Context) (*PageInfo, error) {
 	p := PageInfo{
 		startCursor:     helpers.EncodeCursor(u.from),
 		endCursor:       helpers.EncodeCursor(u.to - 1),
-		hasNextPage:     u.to < len(u.ids),
+		hasNextPage:     u.to < len(*u.reviews),
 		hasPreviousPage: u.from > 0,
 	}
 	return &p, nil
