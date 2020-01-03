@@ -36,9 +36,21 @@ type PageInfo {
   endCursor: ID
 }
 
+type PostConnection {
+  edges: [ReviewEdge]
+  pageInfo: PageInfo!
+}
+
+type PostEdge {
+  cursor: ID!
+  node: Post
+}
+
 type User implements Node {
   id: ID!
   lastName: String!
+  posts: PostConnection
+  reviews: ReviewConnection
 }
 
 type Query {

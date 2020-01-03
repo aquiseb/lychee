@@ -3,16 +3,9 @@ package resolvers
 import (
 	"context"
 
-	"github.com/astenmies/lychee/micro-post/db"
-	"github.com/astenmies/lychee/micro-post/models"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
-
-type PostResolver struct {
-	DB *db.Services
-	m  models.Post
-}
 
 func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
 	id := *args.ID // dereference the pointer
@@ -40,9 +33,7 @@ func (r *ReviewResolver) Post(ctx context.Context) (*PostResolver, error) {
 	}
 
 	s := PostResolver{
-		m: *post,
-		// Pass DB when the resolver below needs it as well!
-		// For instance when { post(id: "1") { reviews { post { id } } } }
+		m:  *post,
 		DB: r.DB,
 	}
 

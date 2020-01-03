@@ -2,45 +2,18 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/astenmies/lychee/helpers"
-	"github.com/astenmies/lychee/micro-post/db"
 	"github.com/astenmies/lychee/micro-post/models"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type ReviewResolver struct {
-	DB *db.Services
-	m  models.Review
-}
+//////////////////// QUERY RELATIONSHIP ////////////////////
 
-// var reviews = map[string]*models.Review{
-// 	"1": {
-// 		ID:     "11",
-// 		Stars:  5,
-// 		PostID: "2",
-// 	},
-// 	"2": {
-// 		ID:     "22",
-// 		Stars:  4,
-// 		PostID: "1",
-// 	},
-// }
-
-// PostReviewsResolver represents all the Reviews that are connected to a certain Post
-type PostReviewsResolver struct {
-	DB      *db.Services
-	reviews *[]*models.Review
-	// ids     []graphql.ID
-	from int
-	to   int
-}
-
+// Review resolver
 func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
 	id := *args.ID // dereference the pointer
-	fmt.Println("id --", id)
 	review, err := q.DB.GetReviewById(bson.M{"id": id})
 	if err != nil {
 		return nil, err
@@ -54,6 +27,8 @@ func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 
 	return &s, nil
 }
+
+//////////////////// POST RELATIONSHIP ////////////////////
 
 // Reviews is the resolver for Reviews belonging to a Post
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
@@ -76,11 +51,30 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 	return &s, nil
 }
 
-// ReviewEdge is the edge containing all review nodes
-type ReviewEdge struct {
-	cursor graphql.ID
-	node   ReviewResolver
+//////////////////// USER RELATIONSHIP ////////////////////
+
+// Reviews is the resolver for Reviews belonging to a Post
+func (p *UserResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
+	ids := []graphql.ID{}
+
+	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
+
+	for _, review := range *reviews {
+		if review.PostID == p.m.ID {
+			ids = append(ids, review.ID)
+		}
+	}
+
+	s := PostReviewsResolver{
+		// ids:     ids,
+		DB:      p.DB,
+		reviews: reviews,
+	}
+
+	return &s, nil
 }
+
+//////////////////// REVIEW ////////////////////
 
 // Edges gives a list of all the review edges that belong to a post
 func (p *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
@@ -91,7 +85,7 @@ func (p *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error)
 		selectedReviews = append(selectedReviews, review)
 	}
 
-	// [TODO] improve this. We don't use ids anymore, but `reviews` is directly passed to `Edges`
+	// [TODO] improve this
 	l := make([]*ReviewEdge, len(*p.reviews))
 	for i := range l {
 		l[i] = &ReviewEdge{
@@ -126,34 +120,6 @@ func (r *ReviewResolver) Stars() *int32 {
 	// [TODO] Edges should access r.m the same way
 	stars := int32(r.m.Stars)
 	return &stars
-}
-
-// PageInfo provides information on our edge for pagination
-type PageInfo struct {
-	startCursor     graphql.ID
-	endCursor       graphql.ID
-	hasNextPage     bool
-	hasPreviousPage bool
-}
-
-// StartCursor ...
-func (p *PageInfo) StartCursor(ctx context.Context) *graphql.ID {
-	return &p.startCursor
-}
-
-// EndCursor ...
-func (p *PageInfo) EndCursor(ctx context.Context) *graphql.ID {
-	return &p.endCursor
-}
-
-// HasNextPage ...
-func (p *PageInfo) HasNextPage(ctx context.Context) bool {
-	return p.hasNextPage
-}
-
-// HasPreviousPage ...
-func (p *PageInfo) HasPreviousPage(ctx context.Context) bool {
-	return p.hasPreviousPage
 }
 
 // PageInfo resolves page info of a Review connection

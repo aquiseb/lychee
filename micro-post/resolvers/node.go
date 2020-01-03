@@ -9,14 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-type Node interface {
-	ID() graphql.ID
-}
-
-type NodeResolver struct {
-	node Node
-}
-
 // var users = map[string]*models.User{
 // 	"1": {
 // 		ID:       "1",
