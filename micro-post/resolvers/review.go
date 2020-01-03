@@ -82,24 +82,13 @@ type ReviewEdge struct {
 	node   ReviewResolver
 }
 
-// func idInSlice(str graphql.ID, list []graphql.ID) bool {
-// 	for _, v := range list {
-// 		if v == str {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
 // Edges gives a list of all the review edges that belong to a post
 func (p *PostReviewsResolver) Edges(ctx context.Context) (*[]*ReviewEdge, error) {
 	selectedReviews := []*models.Review{}
 	reviews := p.reviews
 
 	for _, review := range *reviews {
-		// if idInSlice(graphql.ID(review.ID), u.ids) {
 		selectedReviews = append(selectedReviews, review)
-		// }
 	}
 
 	// [TODO] improve this. We don't use ids anymore, but `reviews` is directly passed to `Edges`
