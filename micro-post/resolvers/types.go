@@ -52,6 +52,15 @@ type PostReviewsResolver struct {
 	to   int
 }
 
+// UserReviewsResolver gets all the Reviews that are connected to a certain Post
+type UserReviewsResolver struct {
+	DB      *db.Services
+	reviews *[]*models.Review
+	// ids     []graphql.ID
+	from int
+	to   int
+}
+
 //////////////////// USER ////////////////////
 
 type UserResolver struct {

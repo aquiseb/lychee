@@ -5,6 +5,7 @@ import (
 
 	"github.com/astenmies/lychee/helpers"
 	"github.com/astenmies/lychee/micro-post/models"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -32,15 +33,15 @@ func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 
 // Reviews is the resolver for Reviews belonging to a Post
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
-	ids := []graphql.ID{}
+	// ids := []graphql.ID{}
 
 	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
 
-	for _, review := range *reviews {
-		if review.PostID == p.m.ID {
-			ids = append(ids, review.ID)
-		}
-	}
+	// for _, review := range *reviews {
+	// 	if review.PostID == p.m.ID {
+	// 		ids = append(ids, review.ID)
+	// 	}
+	// }
 
 	s := PostReviewsResolver{
 		// ids:     ids,
@@ -55,18 +56,11 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 
 // Reviews is the resolver for Reviews belonging to a Post
 func (p *UserResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
-	ids := []graphql.ID{}
+	spew.Dump("USER RESOLVER --", p.m.ID)
+	reviews, _ := p.DB.GetReviewsByUserId(bson.M{"userId": p.m.ID})
 
-	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
-
-	for _, review := range *reviews {
-		if review.PostID == p.m.ID {
-			ids = append(ids, review.ID)
-		}
-	}
-
+	// [TODO] change the name of this resolver to something like ReviewConnectionResolver
 	s := PostReviewsResolver{
-		// ids:     ids,
 		DB:      p.DB,
 		reviews: reviews,
 	}

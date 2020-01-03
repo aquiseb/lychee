@@ -8,8 +8,8 @@ type Post struct {
 }
 
 type User struct {
-	ID       graphql.ID `json:"id"	bson:"id,omitempty"`
-	LastName string     `json:"lastName"	bson:"lastName,omitempty"`
+	ID       graphql.ID
+	LastName string `json:"lastName"	bson:"lastName,omitempty"`
 }
 
 type Review struct {

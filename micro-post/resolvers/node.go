@@ -46,5 +46,8 @@ func (q *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
 		return nil, err
 	}
 
-	return &NodeResolver{&UserResolver{m: result}}, nil
+	return &NodeResolver{&UserResolver{
+		m:  result,
+		DB: q.DB, // Careful here, this is mandatory in order to query stuff on DB from within the UserResolver
+	}}, nil
 }

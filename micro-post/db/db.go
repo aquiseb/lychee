@@ -54,7 +54,7 @@ func (s *Services) GetReviewsByPostId(filter bson.M) (*[]*models.Review, error) 
 
 	collection := s.Client.Database("lychee").Collection("reviews")
 
-	cursor, err := collection.Find(context.TODO(), bson.M{"postId": "1"})
+	cursor, err := collection.Find(context.TODO(), filter)
 
 	if err != nil {
 		return nil, errors.Cause(err)
@@ -77,31 +77,42 @@ func (s *Services) GetReviewsByPostId(filter bson.M) (*[]*models.Review, error) 
 		return nil, errors.Cause(err)
 	}
 
-	// ctx, _ = context.WithTimeout(context.Background(), 30*time.Second)
-	// cur, err := collection.Find(ctx, bson.D{})
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer cur.Close(ctx)
-	// for cur.Next(ctx) {
-	// 	var result bson.M
-	// 	err := cur.Decode(&result)
-	// 	if err != nil {
-	// 		log.Fatal(err)
-	// 	}
-	// 	// do something with result....
-	// }
-	// if err := cur.Err(); err != nil {
-	// 	log.Fatal(err)
-	// }
+	//dont forget to close the cursor
+	defer cursor.Close(context.TODO())
+
+	return &results, nil
+}
+
+func (s *Services) GetReviewsByUserId(filter bson.M) (*[]*models.Review, error) {
+	var results []*models.Review
+
+	collection := s.Client.Database("lychee").Collection("reviews")
+
+	cursor, err := collection.Find(context.TODO(), filter)
+
+	if err != nil {
+		return nil, errors.Cause(err)
+	}
+
+	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cursor.Close(ctx)
+
+	for cursor.Next(context.TODO()) {
+		var result models.Review
+		err := cursor.Decode(&result)
+		if err != nil {
+			return nil, errors.Cause(err)
+		}
+		// do something with the result
+		results = append(results, &result)
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil, errors.Cause(err)
+	}
 
 	//dont forget to close the cursor
 	defer cursor.Close(context.TODO())
-	// Loop over the result array and perform whatever required
-	// for _, element := range allbooks {
-	// 	book := *element
-	// 	fmt.Println(book)
-	// }
 
 	return &results, nil
 }

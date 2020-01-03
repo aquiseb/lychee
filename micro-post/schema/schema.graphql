@@ -49,7 +49,6 @@ type PostEdge {
 type User implements Node {
   id: ID!
   lastName: String!
-  posts: PostConnection
   reviews: ReviewConnection
 }
 
