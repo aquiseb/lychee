@@ -9,32 +9,30 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// var users = map[string]*models.User{
-// 	"1": {
-// 		ID:       "1",
-// 		LastName: "Mies",
-// 	},
-// }
-
+// ID of the node
 func (n *NodeResolver) ID() graphql.ID {
 	return n.node.ID()
 }
 
+// ToUser resolves the node to a user
 func (n *NodeResolver) ToUser() (*UserResolver, bool) {
 	user, ok := n.node.(*UserResolver)
 	return user, ok
 }
 
+// ToPost resolves the node to a post
 func (n *NodeResolver) ToPost() (*PostResolver, bool) {
 	post, ok := n.node.(*PostResolver)
 	return post, ok
 }
 
+// ToReview resolves the node to a review
 func (n *NodeResolver) ToReview() (*ReviewResolver, bool) {
 	review, ok := n.node.(*ReviewResolver)
 	return review, ok
 }
 
+// Node is the top level node query resolver for relationships between services
 func (q *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
 	dbName := viper.GetString("db.name")
 

@@ -7,8 +7,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// Post resolves the post query
 func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
-	id := *args.ID // dereference the pointer
+	id := *args.ID // dereferences the pointer
 
 	post, err := q.DB.GetPostById(bson.M{"id": id})
 	if err != nil {
@@ -25,7 +26,7 @@ func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResol
 	return &s, nil
 }
 
-// Post is the resolver for Post belonging to a Review
+// Post resolves the post belonging to a Review
 func (r *ReviewResolver) Post(ctx context.Context) (*PostResolver, error) {
 	post, err := r.DB.GetPostById(bson.M{"id": r.m.ID})
 	if err != nil {

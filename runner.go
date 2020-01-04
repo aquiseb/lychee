@@ -20,7 +20,7 @@ type cmd struct {
 	Err    error
 }
 
-func runner() {
+func main() {
 
 	torun := []cmd{
 		cmd{

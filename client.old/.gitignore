@@ -1,8 +1,0 @@
-__generated__/
-schema/schema.graphql
-node_modules
-.next
-.editorconfig
-dist
-yarn.lock
-.env
