@@ -8,12 +8,14 @@ var users = map[string]*User{
 	"1": {
 		id:        "1",
 		firstname: "Aline",
+		lastname:  "Hoho",
 	},
 }
 
 type User struct {
 	id        graphql.ID
 	firstname string
+	lastname  string
 }
 
 func (q *Query) AllUsers() []*User {
@@ -33,6 +35,10 @@ func (u *User) ID() graphql.ID {
 
 func (u *User) Firstname() string {
 	return u.firstname
+}
+
+func (u *User) Lastname() string {
+	return u.lastname
 }
 
 func (n *NodeResolver) ToUser() (*User, bool) {

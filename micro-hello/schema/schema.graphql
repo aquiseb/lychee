@@ -9,6 +9,7 @@ interface Node {
 type User implements Node {
   id: ID!
   firstname: String!
+  lastname: String!
 }
 
 type Query {

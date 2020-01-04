@@ -75,9 +75,9 @@ func Seed(c *mongo.Client) {
 
 	dataToSeed := map[string][]interface{}{
 		"users": {
-			bson.M{"id": "1", "firstname": "Aline", "lastname": "MQ"},
-			bson.M{"id": "2", "firstname": "Rose", "lastname": "DS"},
-			bson.M{"id": "3", "firstname": "Seb", "lastname": "DS"},
+			bson.M{"id": "1", "firstname": "Aline", "lastname": "MQ", "canWriteReviews": true},
+			bson.M{"id": "2", "firstname": "Rose", "lastname": "DS", "canWriteReviews": true},
+			bson.M{"id": "3", "firstname": "Seb", "lastname": "DS", "canWriteReviews": false},
 		},
 		"posts": {
 			bson.M{"id": "1", "title": "First post", "slug": "first-post"},
@@ -88,6 +88,7 @@ func Seed(c *mongo.Client) {
 			bson.M{"id": "1", "stars": 5, "postId": "1", "userId": "3"},
 			bson.M{"id": "2", "stars": 4, "postId": "2", "userId": "1"},
 			bson.M{"id": "3", "stars": 3, "postId": "1", "userId": "2"},
+			bson.M{"id": "4", "stars": 1, "postId": "1", "userId": "1"},
 		},
 	}
 

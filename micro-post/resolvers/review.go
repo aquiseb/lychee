@@ -38,7 +38,7 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
 
 	// for _, review := range *reviews {
-	// 	if review.PostID == p.m.ID {
+	// 	if review.PostId == p.m.ID {
 	// 		ids = append(ids, review.ID)
 	// 	}
 	// }
