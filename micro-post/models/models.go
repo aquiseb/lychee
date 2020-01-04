@@ -10,13 +10,13 @@ type Post struct {
 
 // User ...
 type User struct {
-	ID       graphql.ID `json:"id" bson:"id, omitempty"`
-	Lastname string     `json:"lastname" bson:"lastname,omitempty"`
+	ID              graphql.ID `json:"id" bson:"id, omitempty"`
+	CanWriteReviews bool       `json:"canWriteReviews" bson:"canWriteReviews,omitempty"`
 }
 
 // Review ...
 type Review struct {
 	ID     graphql.ID `json:"id" bson:"id, omitempty"`
 	Stars  int        `json:"stars" bson:"stars,omitempty"`
-	PostID graphql.ID `json:"postId" bson:"postId,omitempty"`
+	PostId graphql.ID `json:"postId" bson:"postId,omitempty"`
 }
