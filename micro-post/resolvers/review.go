@@ -5,7 +5,6 @@ import (
 
 	"github.com/astenmies/lychee/helpers"
 	"github.com/astenmies/lychee/micro-post/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -56,7 +55,6 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 
 // Reviews is the resolver for Reviews belonging to a Post
 func (p *UserResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
-	spew.Dump("USER RESOLVER --", p.m.ID)
 	reviews, _ := p.DB.GetReviewsByUserID(bson.M{"userID": p.m.ID})
 
 	// [TODO] change the name of this resolver to something like ReviewConnectionResolver

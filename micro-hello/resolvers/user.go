@@ -1,47 +1,87 @@
 package resolvers
 
 import (
+	"context"
+
+	"github.com/astenmies/lychee/micro-hello/models"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
-var users = map[string]*User{
+var us = map[string]*models.User{
 	"1": {
-		id:        "1",
-		firstname: "Aline",
-		lastname:  "Hoho",
+		ID:        "1",
+		Firstname: "Aline",
+		Lastname:  "Hoho",
 	},
 }
 
-type User struct {
-	id        graphql.ID
-	firstname string
-	lastname  string
-}
+// func (q *Query) AllUsers() (*[]*UserResolver, error) {
+// 	users, err := q.DB.GetAllUsers()
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-func (q *Query) AllUsers() []*User {
-	// build up a list of all the users
-	userSlice := []*User{}
+// 	// [TODO] change the name of this resolver to something like ReviewConnectionResolver
+// 	s := UsersResolver{
+// 		DB:    q.DB,
+// 		users: users,
+// 	}
 
-	for _, user := range users {
-		userSlice = append(userSlice, user)
+// 	return &s, nil
+// }
+
+// Edges gives a list of all the review edges that belong to a post
+// [TODO] NEEDS MASSIVE CLEANUP AND micro-post Edges should maybe have the same approach
+func (p *Query) AllUsers(ctx context.Context) ([]*UserResolver, error) {
+	spew.Dump("ALL USERS --->")
+
+	selectedReviews := []*UserResolver{}
+	reviews, _ := p.DB.GetAllUsers()
+
+	for _, review := range *reviews {
+		selectedReviews = append(selectedReviews, &UserResolver{m: *review})
 	}
 
-	return userSlice
+	return selectedReviews, nil
+
+	// // [TODO] improve this
+	// l := make([]*UserResolver, len(*reviews))
+	// for i := range l {
+	// 	l[i] = selectedReviews[i]
+	// }
+
+	// return &l, nil
 }
 
-func (u *User) ID() graphql.ID {
-	return u.id
+// User resolves the post query
+func (q *Query) User(ctx context.Context, args struct{ ID *string }) (*UserResolver, error) {
+	id := *args.ID // dereferences the pointer
+
+	user, err := q.DB.GetUserByID(bson.M{"id": id})
+	if err != nil {
+		return nil, err
+	}
+
+	s := UserResolver{
+		// Pass DB when the resolver below needs it as well!
+		// For instance when { user(id: "1") { reviews { post { id } } } }
+		DB: q.DB,
+		m:  *user,
+	}
+
+	return &s, nil
 }
 
-func (u *User) Firstname() string {
-	return u.firstname
+func (u *UserResolver) ID() graphql.ID {
+	return u.m.ID
 }
 
-func (u *User) Lastname() string {
-	return u.lastname
+func (u *UserResolver) Firstname() string {
+	return u.m.Firstname
 }
 
-func (n *NodeResolver) ToUser() (*User, bool) {
-	user, ok := n.Node.(*User)
-	return user, ok
+func (u *UserResolver) Lastname() string {
+	return u.m.Lastname
 }
