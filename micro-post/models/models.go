@@ -11,7 +11,7 @@ type Post struct {
 // User ...
 type User struct {
 	ID       graphql.ID `json:"id" bson:"id, omitempty"`
-	LastName string     `json:"lastName" bson:"lastName,omitempty"`
+	Lastname string     `json:"lastname" bson:"lastname,omitempty"`
 }
 
 // Review ...

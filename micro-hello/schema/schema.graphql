@@ -8,7 +8,7 @@ interface Node {
 
 type User implements Node {
   id: ID!
-  firstName: String!
+  firstname: String!
 }
 
 type Query {

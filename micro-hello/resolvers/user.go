@@ -7,13 +7,13 @@ import (
 var users = map[string]*User{
 	"1": {
 		id:        "1",
-		firstName: "Aline",
+		firstname: "Aline",
 	},
 }
 
 type User struct {
 	id        graphql.ID
-	firstName string
+	firstname string
 }
 
 func (q *Query) AllUsers() []*User {
@@ -32,7 +32,7 @@ func (u *User) ID() graphql.ID {
 }
 
 func (u *User) Firstname() string {
-	return u.firstName
+	return u.firstname
 }
 
 func (n *NodeResolver) ToUser() (*User, bool) {
