@@ -28,7 +28,7 @@ func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResol
 
 // Post resolves the post belonging to a Review
 func (r *ReviewResolver) Post(ctx context.Context) (*PostResolver, error) {
-	post, err := r.DB.GetPostById(bson.M{"id": r.m.ID})
+	post, err := r.DB.GetPostById(bson.M{"id": r.m.PostId})
 	if err != nil {
 		return nil, err
 	}
