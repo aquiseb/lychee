@@ -11,7 +11,7 @@ import (
 func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResolver, error) {
 	id := *args.ID // dereferences the pointer
 
-	post, err := q.DB.GetPostById(bson.M{"id": id})
+	post, err := q.DB.GetPostByID(bson.M{"id": id})
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func (q *Query) Post(ctx context.Context, args struct{ ID *string }) (*PostResol
 
 // Post resolves the post belonging to a Review
 func (r *ReviewResolver) Post(ctx context.Context) (*PostResolver, error) {
-	post, err := r.DB.GetPostById(bson.M{"id": r.m.PostId})
+	post, err := r.DB.GetPostByID(bson.M{"id": r.m.PostID})
 	if err != nil {
 		return nil, err
 	}

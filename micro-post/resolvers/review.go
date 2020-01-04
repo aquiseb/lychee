@@ -15,7 +15,7 @@ import (
 // Review resolver
 func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewResolver, error) {
 	id := *args.ID // dereference the pointer
-	review, err := q.DB.GetReviewById(bson.M{"id": id})
+	review, err := q.DB.GetReviewByID(bson.M{"id": id})
 	if err != nil {
 		return nil, err
 	}
@@ -35,10 +35,10 @@ func (q *Query) Review(ctx context.Context, args struct{ ID *string }) (*ReviewR
 func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
 	// ids := []graphql.ID{}
 
-	reviews, _ := p.DB.GetReviewsByPostId(bson.M{"postId": p.m.ID})
+	reviews, _ := p.DB.GetReviewsByPostID(bson.M{"postID": p.m.ID})
 
 	// for _, review := range *reviews {
-	// 	if review.PostId == p.m.ID {
+	// 	if review.PostID == p.m.ID {
 	// 		ids = append(ids, review.ID)
 	// 	}
 	// }
@@ -57,7 +57,7 @@ func (p *PostResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error
 // Reviews is the resolver for Reviews belonging to a Post
 func (p *UserResolver) Reviews(ctx context.Context) (*PostReviewsResolver, error) {
 	spew.Dump("USER RESOLVER --", p.m.ID)
-	reviews, _ := p.DB.GetReviewsByUserId(bson.M{"userId": p.m.ID})
+	reviews, _ := p.DB.GetReviewsByUserID(bson.M{"userID": p.m.ID})
 
 	// [TODO] change the name of this resolver to something like ReviewConnectionResolver
 	s := PostReviewsResolver{

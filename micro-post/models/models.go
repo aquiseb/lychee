@@ -18,5 +18,5 @@ type User struct {
 type Review struct {
 	ID     graphql.ID `json:"id" bson:"id, omitempty"`
 	Stars  int        `json:"stars" bson:"stars,omitempty"`
-	PostId graphql.ID `json:"postId" bson:"postId,omitempty"`
+	PostID graphql.ID `json:"postID" bson:"postID,omitempty"`
 }

@@ -19,8 +19,8 @@ func (s *Services) Check(str string) {
 	fmt.Printf("db methods are working! %s", str)
 }
 
-// GetPostById retrieves a post from db based on id
-func (s *Services) GetPostById(filter bson.M) (*models.Post, error) {
+// GetPostByID retrieves a post from db based on id
+func (s *Services) GetPostByID(filter bson.M) (*models.Post, error) {
 	var result models.Post
 	collection := s.Client.Database("lychee").Collection("posts")
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
@@ -34,8 +34,8 @@ func (s *Services) GetPostById(filter bson.M) (*models.Post, error) {
 	return &result, nil
 }
 
-// GetReviewById retrieves a review from db based on id
-func (s *Services) GetReviewById(filter bson.M) (*models.Review, error) {
+// GetReviewByID retrieves a review from db based on id
+func (s *Services) GetReviewByID(filter bson.M) (*models.Review, error) {
 	var result models.Review
 	collection := s.Client.Database("lychee").Collection("reviews")
 	err := collection.FindOne(context.TODO(), filter).Decode(&result)
@@ -49,7 +49,7 @@ func (s *Services) GetReviewById(filter bson.M) (*models.Review, error) {
 	return &result, nil
 }
 
-func (s *Services) GetReviewsByPostId(filter bson.M) (*[]*models.Review, error) {
+func (s *Services) GetReviewsByPostID(filter bson.M) (*[]*models.Review, error) {
 	var results []*models.Review
 
 	collection := s.Client.Database("lychee").Collection("reviews")
@@ -83,7 +83,7 @@ func (s *Services) GetReviewsByPostId(filter bson.M) (*[]*models.Review, error) 
 	return &results, nil
 }
 
-func (s *Services) GetReviewsByUserId(filter bson.M) (*[]*models.Review, error) {
+func (s *Services) GetReviewsByUserID(filter bson.M) (*[]*models.Review, error) {
 	var results []*models.Review
 
 	collection := s.Client.Database("lychee").Collection("reviews")
