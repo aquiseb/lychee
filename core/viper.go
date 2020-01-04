@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// InitViper initializes viper configs
 func InitViper() {
 	viper.SetConfigName("global")
 	viper.AddConfigPath("_config")

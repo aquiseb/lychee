@@ -10,7 +10,7 @@ import (
 	"github.com/graph-gophers/graphql-go/relay"
 )
 
-// Graphql middleware renders the handler
+// Graphql middleware returns the handler
 func Graphql(schema string, resolvers interface{}) http.HandlerFunc {
 	parsedSchema := graphql.MustParseSchema(schema, resolvers)
 
