@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/astenmies/lychee/core"
-	"github.com/astenmies/lychee/micro-hello/db"
-	resolvers "github.com/astenmies/lychee/micro-hello/resolvers"
-	"github.com/astenmies/lychee/micro-hello/schema"
+	"github.com/astenmies/lychee/micro-user/db"
+	resolvers "github.com/astenmies/lychee/micro-user/resolvers"
+	"github.com/astenmies/lychee/micro-user/schema"
 )
 
 // https://github.com/graph-gophers/graphql-go/issues/106#issuecomment-350231819

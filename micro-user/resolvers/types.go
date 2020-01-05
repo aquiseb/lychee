@@ -1,8 +1,8 @@
 package resolvers
 
 import (
-	"github.com/astenmies/lychee/micro-hello/db"
-	"github.com/astenmies/lychee/micro-hello/models"
+	"github.com/astenmies/lychee/micro-user/db"
+	"github.com/astenmies/lychee/micro-user/models"
 	"github.com/graph-gophers/graphql-go"
 )
 
