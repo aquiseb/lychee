@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/astenmies/lychee/micro-post/models"
@@ -13,11 +12,6 @@ import (
 
 // Services expose db methods
 type Services types.DB
-
-// Check just prints a string
-func (s *Services) Check(str string) {
-	fmt.Printf("db methods are working! %s", str)
-}
 
 // GetPostByID retrieves a post from db based on id
 func (s *Services) GetPostByID(filter bson.M) (*models.Post, error) {

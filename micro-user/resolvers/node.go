@@ -9,16 +9,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-// func (q *Query) Node(args struct{ ID string }) *NodeResolver {
-// 	user := users[args.ID]
-
-// 	if user != nil {
-// 		return &NodeResolver{user}
-// 	} else {
-// 		return nil
-// 	}
-// }
-
 // Node is the top level node query resolver for relationships between services
 func (q *Query) Node(args struct{ ID string }) (*NodeResolver, error) {
 	dbName := viper.GetString("db.name")

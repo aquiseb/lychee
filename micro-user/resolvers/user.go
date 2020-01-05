@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/astenmies/lychee/micro-user/models"
-	"github.com/davecgh/go-spew/spew"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -17,42 +16,17 @@ var us = map[string]*models.User{
 	},
 }
 
-// func (q *Query) AllUsers() (*[]*UserResolver, error) {
-// 	users, err := q.DB.GetAllUsers()
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	// [TODO] change the name of this resolver to something like ReviewConnectionResolver
-// 	s := UsersResolver{
-// 		DB:    q.DB,
-// 		users: users,
-// 	}
-
-// 	return &s, nil
-// }
-
 // Edges gives a list of all the review edges that belong to a post
 // [TODO] NEEDS MASSIVE CLEANUP AND micro-post Edges should maybe have the same approach
 func (p *Query) AllUsers(ctx context.Context) ([]*UserResolver, error) {
-	spew.Dump("ALL USERS --->")
-
 	selectedReviews := []*UserResolver{}
-	reviews, _ := p.DB.GetAllUsers()
+	users, _ := p.DB.GetAllUsers()
 
-	for _, review := range *reviews {
-		selectedReviews = append(selectedReviews, &UserResolver{m: *review})
+	for _, user := range *users {
+		selectedReviews = append(selectedReviews, &UserResolver{m: *user})
 	}
 
 	return selectedReviews, nil
-
-	// // [TODO] improve this
-	// l := make([]*UserResolver, len(*reviews))
-	// for i := range l {
-	// 	l[i] = selectedReviews[i]
-	// }
-
-	// return &l, nil
 }
 
 // User resolves the post query
