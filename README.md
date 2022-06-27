@@ -6,7 +6,7 @@ lychee
 
 <p align="center">
   <strong>
-    A simple example of GraphQL microservices federated in Golang, consumed by a Next.js client.
+    A simple example of GraphQL microservices federated in Golang. This project will soon provide some CMS features.
   </strong>
 </p>
 
