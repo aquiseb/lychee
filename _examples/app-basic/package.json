@@ -1,0 +1,26 @@
+{
+	"name": "app-basic-lychee",
+	"private": true,
+	"license": "UNLICENSED",
+	"scripts": {
+		"dev": "next",
+		"build": "next build",
+		"start": "next start"
+	},
+	"dependencies": {
+		"@chakra-ui/icons": "^2.0.2",
+		"@chakra-ui/react": "^2.2.1",
+		"@chakra-ui/theme-tools": "^2.0.2",
+		"@emotion/react": "^11.9.0",
+		"@emotion/styled": "^11.9.0",
+		"consts": "^0.0.2",
+		"framer-motion": "^6.3.0",
+		"next": "latest",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.33.0",
+		"react-icons": "^4.4.0",
+		"universal-cookie": "^4.0.4"
+	},
+	"devDependencies": {}
+}
