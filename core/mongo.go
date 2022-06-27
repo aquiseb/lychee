@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
 
@@ -18,6 +19,11 @@ import (
 // GetMongoClient returns a MongoDB Client
 func GetMongoClient() (*mongo.Client, error) {
 	uri := viper.GetString("db.uri")
+
+	// [TODO] this should maybe move to config or so
+	if os.Getenv("IS_DOCKER") == "true" {
+		uri = "mongodb://mongo:27017"
+	}
 
 	clientOptions := options.Client().ApplyURI(uri)
 	client, err := mongo.NewClient(clientOptions)

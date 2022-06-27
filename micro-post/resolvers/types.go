@@ -1,9 +1,9 @@
 package resolvers
 
 import (
-	"github.com/astenmies/lychee/micro-post/db"
-	"github.com/astenmies/lychee/micro-post/models"
-	"github.com/astenmies/lychee/types"
+	"github.com/aquiseb/lychee/micro-post/db"
+	"github.com/aquiseb/lychee/micro-post/models"
+	"github.com/aquiseb/lychee/types"
 	"github.com/graph-gophers/graphql-go"
 )
 

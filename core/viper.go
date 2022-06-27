@@ -11,6 +11,11 @@ import (
 func InitViper() {
 	viper.SetConfigName("global")
 	viper.AddConfigPath("_config")
+
+	// Enable VIPER to read Environment Variables
+	viper.AutomaticEnv()
+	// viper.SetConfigType("yml")
+
 	err := viper.ReadInConfig()
 
 	if err != nil {

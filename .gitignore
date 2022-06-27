@@ -1,4 +1,6 @@
 global.json
+global.yml
+
 .vscode
 vendor
 __generated__/

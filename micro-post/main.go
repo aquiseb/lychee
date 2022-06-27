@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/astenmies/lychee/core"
-	"github.com/astenmies/lychee/micro-post/db"
-	"github.com/astenmies/lychee/micro-post/resolvers"
-	"github.com/astenmies/lychee/micro-post/schema"
+	"github.com/aquiseb/lychee/core"
+	"github.com/aquiseb/lychee/micro-post/db"
+	"github.com/aquiseb/lychee/micro-post/resolvers"
+	"github.com/aquiseb/lychee/micro-post/schema"
 	"github.com/spf13/viper"
 )
 

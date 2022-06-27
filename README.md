@@ -1,4 +1,4 @@
-[![Lychee](https://repository-images.githubusercontent.com/210030187/600c7380-dcb9-11e9-992b-bbe7a38e48e5)](https://github.com/astenmies/lychee)
+[![Lychee](https://repository-images.githubusercontent.com/210030187/600c7380-dcb9-11e9-992b-bbe7a38e48e5)](https://github.com/aquiseb/lychee)
 
 <h1 align="center">
 lychee
@@ -17,7 +17,7 @@ lychee
 ## Setup
 
 ```shell
-go get -u github.com/astenmies/lychee
+go get -u github.com/aquiseb/lychee
 go get ./...
 ```
 
@@ -169,4 +169,4 @@ s := PostReviewsResolver{
 
 # Inspirations
 
-* https://github.com/deltaskelta/graphql-go-pets-example
+- https://github.com/deltaskelta/graphql-go-pets-example

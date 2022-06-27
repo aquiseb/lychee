@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/astenmies/lychee/micro-post/models"
-	"github.com/astenmies/lychee/types"
+	"github.com/aquiseb/lychee/micro-post/models"
+	"github.com/aquiseb/lychee/types"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 )

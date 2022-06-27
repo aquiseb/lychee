@@ -3,7 +3,7 @@ package resolvers
 import (
 	"context"
 
-	"github.com/astenmies/lychee/micro-post/models"
+	"github.com/aquiseb/lychee/micro-post/models"
 	"github.com/graph-gophers/graphql-go"
 	"github.com/spf13/viper"
 	"go.mongodb.org/mongo-driver/bson"

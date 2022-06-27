@@ -4,8 +4,8 @@ package resolvers
 // 	"context"
 // 	"testing"
 
-// 	"github.com/astenmies/lychee/micro-post/schema"
-// 	gqlResolver "github.com/astenmies/lychee/server/gqlResolver"
+// 	"github.com/aquiseb/lychee/micro-post/schema"
+// 	gqlResolver "github.com/aquiseb/lychee/server/gqlResolver"
 // 	"github.com/graph-gophers/graphql-go"
 // 	"github.com/graph-gophers/graphql-go/gqltesting"
 // )

@@ -1,7 +1,0 @@
-{
-    "port": 4001,
-    "db": {
-        "uri": "mongodb://localhost:27017",
-        "name": "lychee"
-    }
-}

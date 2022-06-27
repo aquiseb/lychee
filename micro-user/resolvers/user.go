@@ -3,7 +3,7 @@ package resolvers
 import (
 	"context"
 
-	"github.com/astenmies/lychee/micro-user/models"
+	"github.com/aquiseb/lychee/micro-user/models"
 	"github.com/graph-gophers/graphql-go"
 	"go.mongodb.org/mongo-driver/bson"
 )

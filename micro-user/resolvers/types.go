@@ -1,9 +1,9 @@
 package resolvers
 
 import (
-	"github.com/astenmies/lychee/micro-user/db"
-	"github.com/astenmies/lychee/micro-user/models"
-	"github.com/astenmies/lychee/types"
+	"github.com/aquiseb/lychee/micro-user/db"
+	"github.com/aquiseb/lychee/micro-user/models"
+	"github.com/aquiseb/lychee/types"
 )
 
 // Query contains the DB so it's made available in all resolvers
